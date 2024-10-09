@@ -7,3 +7,4 @@
 2. speech to text: create text from an audio.
 3. gemini: API with Google Gemini (prompt-template)
 4. chat-gpt: API with Chat Gpt (prompt-template)
+5. groqChat: simple prompt chat with MetaAI.
