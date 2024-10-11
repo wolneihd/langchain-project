@@ -1,6 +1,8 @@
 import mysql.connector;
 from dotenv import load_dotenv
 import os
+from entidades.mensagem_telegram import Mensagem
+from typing import List
 
 # Carrega as variáveis do arquivo .env
 load_dotenv()
@@ -32,6 +34,21 @@ def conectar():
     )
     print("conectado com sucesso!")
     return conexao
+
+# obter todos os dados
+def buscar_todas_mensagens() -> List[Mensagem]:
+    conexao = conectar()
+    cursor = conexao.cursor()
+    cursor.execute("SELECT * FROM mensagens;")
+    registros = cursor.fetchall()
+    conexao.close()
+
+    listaMensagens: List[Mensagem] = []
+    for registro in registros:
+        id, id_msg, user_id, first_name, last_name, timestamp, mensagem = registro
+        novaMensagem = Mensagem(int(id_msg), int(user_id), first_name, last_name, int(timestamp), mensagem)
+        listaMensagens.append(novaMensagem)
+    return listaMensagens
 
 # insere mensagem no DB
 def cadastrar_mensagem_database(message_id:int, user_id:int, first_name:str, last_name:str, timestamp:int, text_msg:str):

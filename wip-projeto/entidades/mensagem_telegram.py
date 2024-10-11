@@ -6,3 +6,13 @@ class Mensagem():
         self.last_name = last_name
         self.timestamp = timestamp
         self.text_msg = text_msg
+
+    def to_dict(self):
+        return {
+            'message_id': self.message_id,
+            'user_id': self.user_id,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'timestamp': self.timestamp,
+            'text_msg': self.text_msg
+        }

@@ -2,7 +2,7 @@ import telebot
 import os
 from dotenv import load_dotenv
 from entidades.mensagem_telegram import Mensagem
-from database.insert_mensage import cadastrar_mensagem_database
+from database.comandos_db import cadastrar_mensagem_database
 
 # importa o TOKEN do Telegram
 load_dotenv()
