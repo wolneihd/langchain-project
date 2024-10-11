@@ -9,16 +9,44 @@ async function buscarTodasMensagens() {
         if (!response.ok) {
             throw new error("Could not fetch resource!");
         }
-        const data = await response.json();       
-        incluir_dados_tabela(data);
+        const data = await response.json(); 
+        if (data.length == 0) {
+            tabelaVazia()
+        } else {
+            incluirTabela(data);            
+        }  
     }
     catch (error) {
+        tabelaVazia()
         console.log(error);
     }
 }
 
+// mostrar div aviso tabela vazia ou sem conexção DB
+function tabelaVazia() {
+    $('.head-tabela').remove();
+    $('.linha_dinamica').remove();
+    $('.mensagem-erro').remove();
+    $(".no-files").append(`<p class='mensagem-erro'>Tabela vazia. Favor verificar se há comunicação com o Banco de Dados.</p>`)
+}
+
 // mostrar dados tabela
-function incluir_dados_tabela(data) {
+function incluirTabela(data) {
+    $('.head-tabela').remove()
+    $('.mensagem-erro').remove()
+    $('#tabela').append(
+        `
+        <tr class='head-tabela'>
+                <th>n°</th>
+                <th>id_mensagem</th>
+                <th>id_user</th>
+                <th>first_name</th>
+                <th>last_name</th>
+                <th>horário</th>
+                <th>mensagem</th>
+        </tr>
+        `
+    )
     $('.linha_dinamica').remove();
     for (let i = 0; i < data.length; i++) {
         var new_row = $(`
@@ -35,8 +63,6 @@ function incluir_dados_tabela(data) {
     }
 }
 
-// <td class='linha_dinamica'>${converterTimestamp(data[i]['timestamp'])}</td>
-// <td class='linha_dinamica'>${data[i]['timestamp']}</td>
 function converterTimestamp(timestamp) {
     const date = new Date(timestamp * 1000);
 
