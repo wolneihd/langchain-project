@@ -18,9 +18,9 @@ USE `aplicacao` ;
 -- Table `aplicacao`.`tiposMensagem`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `aplicacao`.`tiposMensagem` (
-  `1` INT NOT NULL AUTO_INCREMENT,
-  `type` VARCHAR(45) NULL,
-  PRIMARY KEY (`1`))
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `tipo` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
 
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `aplicacao`.`mensagens` (
   INDEX `fk_mensagens_usuarios1_idx` (`usuarios_id` ASC) VISIBLE,
   CONSTRAINT `fk_mensagens_messageType`
     FOREIGN KEY (`id_tipo_mensagem`)
-    REFERENCES `aplicacao`.`tiposMensagem` (`1`)
+    REFERENCES `aplicacao`.`tiposMensagem` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_mensagens_usuarios1`

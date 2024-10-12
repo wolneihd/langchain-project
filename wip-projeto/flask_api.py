@@ -11,8 +11,9 @@ def montar_API():
     # consultar todas as mensagens
     @app.route('/', methods=['GET'])
     def obter_todas_as_mensagens():
-        listaMensagens = buscar_todas_mensagens()
-        return jsonify([mensagem.to_dict() for mensagem in listaMensagens])
+        lista_usuarios = buscar_todas_mensagens()
+        lista_usuarios_dict = [usuario.to_dict() for usuario in lista_usuarios]
+        return jsonify(lista_usuarios_dict)
     
     app.run(port=5000,host='localhost',debug=True)
 

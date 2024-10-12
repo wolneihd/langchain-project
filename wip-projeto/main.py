@@ -4,8 +4,8 @@ from flask_cors import CORS  # Importar CORS
 import telebot
 import os
 from dotenv import load_dotenv
-from database.comandos_db import buscar_todas_mensagens, cadastrar_mensagem_database
-from entidades.mensagem_telegram import Mensagem
+from database.comandos_db import salvar_registro, buscar_todas_mensagens
+from entidades.mensagem_telegram import Mensagem, TipoMensagem, Usuario
 
 # Carregar variáveis de ambiente
 load_dotenv()
@@ -23,20 +23,12 @@ bot = telebot.TeleBot(TELEGRAM_TOKEN)
 
 # Função para o bot do Telegram
 def start_bot():
-    def salvar_mensagem_BD(mensagem):
-        msg = Mensagem(
-            mensagem.id,
-            mensagem.from_user.id,
-            mensagem.from_user.first_name,
-            mensagem.from_user.last_name,
-            mensagem.date,
-            mensagem.json['text']
-        )
-        cadastrar_mensagem_database(msg.message_id, msg.user_id, msg.first_name, msg.last_name, msg.timestamp, msg.text_msg)    
+    def salvar_mensagem_BD(mensagem, tipo:str):
+        salvar_registro(mensagem.from_user.id, mensagem.from_user.first_name, mensagem.from_user.last_name, mensagem.date, mensagem.json['text'], tipo)
 
     @bot.message_handler(func=lambda mensagem: True)
     def responder(mensagem):
-        salvar_mensagem_BD(mensagem)
+        salvar_mensagem_BD(mensagem, 'texto')
         bot.send_message(mensagem.chat.id, "mensagem recebida, estaremos analisando.")
 
     # Função para tratar mensagens de foto
@@ -72,8 +64,9 @@ CORS(app)  # Habilitar CORS para todas as rotas
 
 @app.route('/')
 def obter_todas_as_mensagens():
-    listaMensagens = buscar_todas_mensagens()
-    return jsonify([mensagem.to_dict() for mensagem in listaMensagens])
+    lista_usuarios = buscar_todas_mensagens()
+    lista_usuarios_dict = [usuario.to_dict() for usuario in lista_usuarios]
+    return jsonify(lista_usuarios_dict)
 
 # Função para iniciar a API Flask
 def start_api():
