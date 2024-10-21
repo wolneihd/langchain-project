@@ -1,7 +1,10 @@
 package tcc.superdev.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import tcc.superdev.model.Mensagens;
+import tcc.superdev.model.Mensagem;
 
-public interface MensagensRepository extends JpaRepository<Mensagens, Long> {
+import java.util.List;
+
+public interface MensagensRepository extends JpaRepository<Mensagem, Integer>{
+    //List<Mensagem> findByUsuarioId(Integer usuarioId);
 }

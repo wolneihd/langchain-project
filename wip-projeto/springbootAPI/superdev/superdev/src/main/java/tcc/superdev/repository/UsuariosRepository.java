@@ -1,7 +1,8 @@
 package tcc.superdev.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import tcc.superdev.model.Usuarios;
+import tcc.superdev.model.Usuario;
 
-public interface UsuariosRepository extends JpaRepository<Usuarios, Long> {
+public interface UsuariosRepository extends JpaRepository<Usuario, Integer> {
+    
 }

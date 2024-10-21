@@ -4,38 +4,49 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Table;
+
+import org.springframework.scheduling.config.Task;
+
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.LongStream;
 
 @Entity
 @Table(name = "usuarios")
-public class Usuarios {
+//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+//@JsonInclude(JsonInclude.Include.NON_NULL)
+public class Usuario {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     private Long userId;
-
-    @Column(length = 100, nullable = false)
     private String firstName;
-
-    @Column(length = 100, nullable = false)
     private String lastName;
 
-    @OneToMany(mappedBy = "usuarios", cascade = CascadeType.ALL)
-    private List<Mensagens> mensagens;
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    @JsonManagedReference // Para controlar a serialização
+    private List<Mensagem> mensagens = new ArrayList<Mensagem>();
 
     // Getters e Setters
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -63,12 +74,17 @@ public class Usuarios {
         this.lastName = lastName;
     }
 
-    public List<Mensagens> getMensagens() {
+    public List<Mensagem> getMensagens() {
         return mensagens;
     }
 
-    public void setMensagens(List<Mensagens> mensagens) {
+    public void setMensagens(List<Mensagem> mensagens) {
         this.mensagens = mensagens;
+    }
+
+    // Método para adicionar uma mensagem à lista
+    public void addMensagem(Mensagem mensagem) {
+        mensagens.add(mensagem); // Adiciona a nova mensagem
     }
 
 }
