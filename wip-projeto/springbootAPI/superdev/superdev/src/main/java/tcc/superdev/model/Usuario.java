@@ -1,31 +1,20 @@
 package tcc.superdev.model;
 
-import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Table;
-
-import org.springframework.scheduling.config.Task;
 
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.CascadeType;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.LongStream;
 
 @Entity
 @Table(name = "usuarios")
-//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-//@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Usuario {
     
     @Id
@@ -41,6 +30,9 @@ public class Usuario {
     @JsonManagedReference // Para controlar a serialização
     private List<Mensagem> mensagens = new ArrayList<Mensagem>();
 
+
+    public Usuario() {}
+ 
     // Getters e Setters
     public Integer getId() {
         return id;
